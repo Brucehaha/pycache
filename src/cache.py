@@ -1,6 +1,7 @@
+import os
 import pickle
-import os.path
 
+from src.settings import DB_PATH
 
 class Cache:
     """
@@ -20,10 +21,15 @@ class Cache:
         self.save_state() # save to file
 
     def save_sate(self):
-        pass
+        pickle.dump({"volatile_data": self.volatile_data}, open(DB_PATH, 'wb'))
     
     def load_state(self):
-        pass 
+        if os.path.exists(DB_PATH):
+            state = pickle.load(open(DB_PATH, 'rb'))
+            self.volatile_data = state['volatile_data']
+
+
+         
 
 
 cache = Cache()
