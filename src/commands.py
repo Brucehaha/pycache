@@ -30,20 +30,21 @@ def set_expire_command(key:int,ttl:int=30) -> str:
 
 
 def set_command(key:int, value:str):
-    cache.volatile_data[key] = value
-    cache.save_state()
+    with cache as ca:
+        ca.volatile_data[key] = value
     return 'ok'
 
 def get_command(key: int) -> str:
     if value := cache.volatile_data.get(key, None):
         return True, value
     else:
+        # TODO may load data from file back again
         return False,'no such key {key}'
 
 def flush_command():
-    cache.volatile_data.clear()
-    cache.expiring.clear()
-    cache.save_state()
+    with cache as ca:
+        ca.volatile_data.clear()
+        ca.expiring.clear()
 
 
 
