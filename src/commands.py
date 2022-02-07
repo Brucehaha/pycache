@@ -40,6 +40,10 @@ def get_command(key: int) -> str:
     else:
         return False,'no such key {key}'
 
+def flush_command():
+    cache.volatile_data.clear()
+    cache.expiring.clear()
+    cache.save_state()
 
 
 

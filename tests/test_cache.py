@@ -40,23 +40,3 @@ def test_cache_expired_and_removed_succeed(tmp_path):
 
 
 
-def test_cache_expired_and_removed_succeed(tmp_path):
-    """
-    Given when store data in to cache with exipred time in 1 second
-    When clean_expired after one second
-    Then data will be cleared
-    """
-    nid ='id'
-    cache.volatile_data[nid] = "test"
-    cache.expiring[nid] = time.time() + 1
-    cache.save_state()
-    cache.volatile_data.clear()
-    cache.load_state()
-    assert cache.volatile_data[nid] ==  "test"
-    del cache.volatile_data[nid]
-    gevent.sleep(1)
-    assert "id" not in cache.volatile_data
-
-
-
-

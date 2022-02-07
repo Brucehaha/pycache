@@ -1,9 +1,7 @@
-import os
-import time
 import gevent
 
 from src.cache import cache
-from src.commands import set_expire_command, set_command, get_command
+from src.commands import set_expire_command, set_command, get_command, flush_command
 
 def test_set_expire_command(tmp_path):
     """
@@ -22,16 +20,28 @@ def test_set_expire_command(tmp_path):
     assert nid not in cache.expiring
 
 
-def test_set_and_get_command(tmp_path):
+def test_set_get_flush_command(tmp_path):
     """
     Set command
     """
     nid ='test_id'
     set_command(nid, 'test')
     assert cache.volatile_data[nid] ==  "test"
+
     del cache.volatile_data[nid]
     assert nid not in cache.volatile_data
+
     cache.load_state()
     assert nid in cache.volatile_data
+
     _, value = get_command(nid)
     assert value == cache.volatile_data[nid]
+
+    flush_command()
+
+    assert value not in cache.volatile_data
+    cache.load_state()
+    assert value not in cache.volatile_data
+
+
+
