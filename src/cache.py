@@ -2,7 +2,7 @@ import os
 import time
 import pickle
 import gevent
-from src.settings import DB_PATH
+from settings import DB_PATH
 
 
 class Cache:
