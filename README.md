@@ -8,12 +8,16 @@
 ## Start:
 
 ```python
-pip install -r requirements.txt
-python server.py
+python3 setup.py install# python server.py # for api
+pythonsrc/pyredis.py # for redis-cli server
+redis-cli # must install redis cli client
 ```
+
+or try the api:
 
 ```bash
 # post data
+python3 server.py
 curl --location --request POST 'http://127.0.0.1:5000/messages' \
 --header 'Content-Type: application/json' \
 --data-raw '{"id":1, "message":"test"}'
@@ -27,7 +31,7 @@ curl --location --request DELETE 'http://127.0.0.1:5000/messages/delete_all'
 ## Run test:
 
 ```python
-python3 -m pytest tests
+python3 -m unittest discover -s tests/ -p 'test_*.py'
 ```
 
 ## Further Implementation
